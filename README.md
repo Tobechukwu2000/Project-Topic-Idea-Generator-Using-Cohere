@@ -18,7 +18,7 @@ https://www.youtube.com/watch?v=Lmg3PQ8kooI
 https://tobechukwu2000-project-topic-idea-ge-cohere-project-idea-jtkbmk.streamlitapp.com/
 ## Acknowledgements
 
- - This app was built using the NLP toolkit provided by [Cohere](https://https://cohere.ai/)
+ - The back-end of this app was built using the NLP toolkit provided by [Cohere](https://https://cohere.ai/)
 
  
 ![Cohere Logo](https://i.postimg.cc/8kRWyv3y/cohere-logo.png)
