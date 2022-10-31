@@ -1,3 +1,0 @@
-cohere
-streamlit
-load_dotenv
