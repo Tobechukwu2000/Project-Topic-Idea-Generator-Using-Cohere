@@ -1,19 +1,137 @@
 import streamlit as st
 import cohere
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
-COHERE_KEY=os.getenv("COHERE_KEY")
+# Cohere API key
+api_key = os.environ["COHERE_KEY"]
 
 # Set up Cohere client
-co = cohere.Client(COHERE_KEY)
+co = cohere.Client(api_key)
 
-base_prompt_topic= 'Given a department and a list of favorite courses in engineering , this program will generate project topic ideas.\n\nDepartment: Mechanical Engineering\nFavorite Courses: Thermodynamics, Heat and mass transfer\nProject Topic: Refrigeration Using waste heat in cars.\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Courses: Heat and mass transfer, Engineering drawing\nProject Topic: Analysis on effectiveness of a double heat exchanger with fin.\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Courses: Metallurgy, Mechanics of fluid\nProject Topic: Aerodynamic modelling of wind Turbine Blades\n\n--SEPARATOR--\n\nDepartment: Civil Engineering\nFavorite Courses: Strength of Materials, Civil Engineering Materials\nProject Topic: The effect of untreated sugarcane ash on the setting time and compressive strength of concrete mix\n\n--SEPARATOR--\n\nDepartment: Civil Engineering\nFavorite Courses: Concrete technology, Theory of structures\nProject Topic: Geometric Design of Highway\n\n--SEPARATOR--\n\nDepartment: Civil Engineering\nFavorite Courses: Soil mechanics, Environmental engineering\nProject Topic: The effect of Environment on bond resistance between concrete and steel reinforcement\n\n--SEPARATOR--\n\nDepartment: Electronics Engineering\nFavorite Courses: Circuit and systems, Physical and applied electronics\nProject Topic: UltraSonic Radar Project\n\n--SEPARATOR--\n\nDepartment: Electronics Engineering\nFavorite Courses: Electromagnetism\nProject Topic: Antenna Design\n\n--SEPARATOR--\n\nDepartment: Electrical Engineering\nFavorite Courses: Power Systems, Electrical Machines\nProject Topic: Solar wireless Electric Vehicle charging system\n\n--SEPARATOR--\n\nDepartment: Electrical Engineering\nFavorite Courses: Measurement and instrumentation\nProject Topic: E-bike speed controller systems\n\n--SEPARATOR--\n\nDepartment: Materials Engineering\nFavorite Courses: Engineering composites, Industrial metallurgy\nProject Topic: Glass Hybrid Fibres Epoxy Composite Material\n\n--SEPARATOR--\n\nDepartment: Materials Engineering\nFavorite Courses: Degradation of Metals and alloy, Advanced materials processing\nProject Topic: Investigating the degradation of Epoxy Resin Nanocomposite Exposed to different environment\n\n--SEPARATOR--\n\nDepartment: Agricultural and Bio-Resource Engineering\nFavorite Courses: Machinery and Food engineering\nProject Topic: Performance Evaluation of a solar powered poultry egg incubator\n\n--SEPARATOR--\n\nDepartment: Chemical Engineering\nFavorite Courses: Industry Chemistry\nProject Topic: Comparative study of Physicochemical analysis of borehole water in a municipal\n\n--SEPARATOR--\n\nDepartment: Chemical Engineering\nFavorite Courses: Petroleum Engineering\nProject Topic: Identification of well problems using well testing\n\n--SEPARATOR--\n\nDepartment: Computer Engineering\nFavorite Courses: Embedded systems, Circuit Analysis\nProject Topic: Water level controller using a microcontroller\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Topics: Computer Aided Design(CAD), Control Systems, Automation\nProject Topic: Design and analysis of automated truck cabin suspension system\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Topics: Computer Aided Design(CAD), Control Systems, Automation\nProject Topic: Detached-Eddy Simulations of Active Control systems on a simplified car geometry\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Topics: Strength of materials, Solid mechanics, Internal Combustion Engine\nProject Topic: Transient Heat Conduction in a Solidifying Alloy\n\n--SEPARATOR--\n\nDepartment: Mechanical Engineering\nFavorite Topics: Strength of materials, Solid mechanics, Internal Combustion Engine\nProject Topic: Power Generation from Internal Combustion Engine using ATG\n\n--SEPARATOR--\n\nDepartment:'
-
-base_prompt_description='This program recieves a project topic and gives a description of the project\n\nProject Topic: Mini Solar water heater\nProject description: This project involves the design and fabrication of a portable solar water heater\n\n--SEPARATOR--\n\nProject Topic: Bluetooth Gamepad for Android Gaming\nProject description: The gamepad will have a unique designed and shaped PCB in the shape of a gamepad. The PCB will have 2 x joysticks mounted on it for transmitting movement and aim commands to the phone\n\n--SEPARATOR--\n\nProject Topic: Aerodynamic Modelling of Wind turbine Blades\nProject description: The purpose of this project will be to find a simple linear modification to the shape of wind turbine blades\n\n--SEPARATOR--\n\nProject Topic: The effect of untreated sugarcane ash on the setting time and compressive strength of concrete mix\nProject description: The main objective of this work is to compare the compressive strength of concrete in which some percentages of cement had been replaced with equal weight of sugarcane ash with that of normal concrete produced from the same mix ratio, and to determine the effect of sugar cane ash on the initial and final setting time of concrete\n\n--SEPARATOR--\n\nProject Topic: Ultrasonic radar project\nProject description: Build a system that can monitor an area of limited range and alerts authorities with a buzzer as an alarm\n\n--SEPARATOR--\n\nProject Topic: Solar wireless electric vehicle charging system\nProject description: The system demonstrates how electric vehicles can be charged while moving on road, eliminating the need to stop for charging\n\n--SEPARATOR--\n\nProject Topic: Glass Hybrid fibres epoxy composite material\nProject description: This project involves the characterization of epoxy-based hybrid composites\n\n--SEPARATOR--\n\nProject Topic: Performance evaluation of a solar powered poultry egg incubator\nProject description: In this study, a solar photovoltaic powered chicken egg incubator was designed, fabricated and tested to evaluate its performance\n\n--SEPARATOR--\n\nProject Topic: Identification of well problems using well testing\nProject description: This project work is concerned with the use of well testing in identifying well problems\n\n--SEPARATOR--\n\nProject Topic:'
 
 def generate_topic(department, favorite_topics):
+     base_prompt_topic = textwrap.dedent("""
+       Department: Mechanical Engineering
+       Favorite Courses: Thermodynamics, Heat and mass transfer
+       Project Topic: Refrigeration Using waste heat in cars.
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Courses: Heat and mass transfer, Engineering drawing
+       Project Topic: Analysis on effectiveness of a double heat exchanger with fin.
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Courses: Metallurgy, Mechanics of fluid
+       Project Topic: Aerodynamic modelling of wind Turbine Blades
+       
+       --SEPARATOR--
+       
+       Department: Civil Engineering
+       Favorite Courses:  Strength of Materials, Civil Engineering Materials
+       Project Topic: The effect of untreated sugarcane ash on the setting time and compressive strength of concrete mix
+       
+       --SEPARATOR--
+       
+       Department: Civil Engineering
+       Favorite Courses: Concrete technology, Theory of structures
+       Project Topic: Geometric Design of Highway
+       
+       --SEPARATOR--
+       
+       Department: Civil Engineering
+       Favorite Courses: Soil mechanics, Environmental engineering
+       Project Topic: The effect of Environment on bond resistance between concrete and steel reinforcement
+       
+       --SEPARATOR--
+       
+       Department: Electronics Engineering
+       Favorite Courses: Circuit and systems, Physical and applied electronics
+       Project Topic: UltraSonic Radar Project
+       
+       --SEPARATOR--
+       
+       Department: Electronics Engineering
+       Favorite Courses: Electromagnetism
+       Project Topic: Antenna Design
+       
+       --SEPARATOR--
+       Department: Electrical Engineering
+       Favorite Courses: Power Systems, Electrical Machines
+       Project Topic: Solar wireless Electric Vehicle charging system
+       
+       --SEPARATOR--
+       
+       Department: Electrical Engineering
+       Favorite Courses: Measurement and instrumentation
+       Project Topic: E-bike speed controller systems
+       
+       --SEPARATOR--
+       
+       Department: Materials Engineering
+       Favorite Courses: Engineering composites, Industrial metallurgy
+       Project Topic: Glass Hybrid Fibres Epoxy Composite Material
+       
+       --SEPARATOR--
+       
+       Department: Materials Engineering
+       Favorite Courses: Degradation of Metals and alloy, Advanced materials processing
+       Project Topic: Investigating the degradation of Epoxy Resin Nanocomposite Exposed to different environment
+       
+       --SEPARATOR--
+       
+       Department: Agricultural and Bio-Resource Engineering
+       Favorite Courses: Machinery and Food engineering
+       Project Topic: Performance Evaluation of a solar powered poultry egg incubator
+       
+       --SEPARATOR--
+       
+       Department: Chemical Engineering
+       Favorite Courses: Industry Chemistry
+       Project Topic: Comparative study of Physicochemical analysis of borehole water in a municipal
+       
+       --SEPARATOR--
+       
+       Department: Chemical Engineering
+       Favorite Courses: Petroleum Engineering
+       Project Topic: Identification of well problems using well testing
+       
+       --SEPARATOR--
+       
+       Department: Computer Engineering
+       Favorite Courses: Embedded systems, Circuit Analysis
+       Project Topic: Water level controller using a microcontroller
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Topics: Computer Aided Design(CAD), Control Systems, Automation
+       Project Topic: Design and analysis of automated truck cabin suspension system
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Topics: Computer Aided Design(CAD), Control Systems, Automation
+       Project Topic: Detached-Eddy Simulations of Active Control systems on a simplified car geometry
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Topics: Strength of materials, Solid mechanics, Internal Combustion Engine
+       Project Topic: Transient Heat Conduction in a Solidifying Alloy
+       
+       --SEPARATOR--
+       
+       Department: Mechanical Engineering
+       Favorite Topics: Strength of materials, Solid mechanics, Internal Combustion Engine
+       Project Topic: Power Generation from Internal Combustion Engine using ATG 
+       
+       --SEPARATOR--
+       Department:""")
+    
+    
     response = co.generate(
       model='xlarge',
       prompt= base_prompt_topic+" "+ department+"\nFavorite Topics: "+favorite_topics+"\nProject Topic: ",
@@ -29,7 +147,55 @@ def generate_topic(department, favorite_topics):
     Project_topic = Project_topic.replace("\n\n--SEPARATOR--","").replace("\n--SEPARATOR--","").strip()
     return Project_topic
 
+
 def generate_description(Project_topic):
+     base_prompt_description = textwrap.dedent("""
+       Project Topic: Mini Solar water heater
+       Project description: This project involves the design and fabrication of a portable solar water heater
+       
+       --SEPARATOR--
+       
+       Project Topic: Bluetooth Gamepad for Android Gaming
+       Project description: The gamepad will have a unique designed and shaped PCB in the shape of a gamepad. The PCB will have 2 x joysticks mounted on it for transmitting movement and aim commands to the phone
+       
+       --SEPARATOR--
+       Project Topic: Aerodynamic Modelling of Wind turbine Blades
+       Project description: The purpose of this project will be to find a simple linear modification to the shape of wind turbine blades
+       
+       --SEPARATOR--
+       
+       Project Topic: The effect of untreated sugarcane ash on the setting time and compressive strength of concrete mix
+       Project description: The main objective of this work is to compare the compressive strength of concrete in which some percentages of cement had been replaced with equal weight of sugarcane ash with that of normal concrete produced from the same mix ratio, and to determine the effect of sugar cane ash on the initial and final setting time of concrete
+       
+       --SEPARATOR--
+       
+       Project Topic: Ultrasonic radar project
+       Project description: Build a system that can monitor an area of limited range and alerts authorities with a buzzer as an alarm
+       
+       --SEPARATOR--
+       
+       Project Topic: Solar wireless electric vehicle charging system
+       Project description: The system demonstrates how electric vehicles can be charged while moving on road, eliminating the need to stop for charging
+       
+       --SEPARATOR--
+       
+       Project Topic: Glass Hybrid fibres epoxy composite material
+       Project description: This project involves the characterization of epoxy-based hybrid composites
+       
+       --SEPARATOR--
+       
+       Project Topic: Performance evaluation of a solar powered poultry egg incubator
+       Project description: In this study, a solar photovoltaic powered chicken egg incubator was designed, fabricated and tested to evaluate its performance
+       
+       --SEPARATOR--
+       
+       Project Topic: Identification of well problems using well testing
+       Project description: This project work is concerned with the use of well testing in identifying well problems
+       
+       --SEPARATOR--
+       
+       Project Topic:""")
+        
     response = co.generate(
       model='xlarge',
       prompt=  base_prompt_description+" "+ Project_topic+"\nProject description:",
