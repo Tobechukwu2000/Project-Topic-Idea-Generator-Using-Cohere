@@ -1,7 +1,7 @@
 
 # PROJECT TOPIC IDEA GENERATOR 
 
-The purpose of this app is to help engineering students generate creative topics for their projects based on their department. The fun part about this app is that it allows you to enter your favorite topics to be able to streamline project topic suggestions that will interest you
+I built an NLP app is to help engineering students generate creative topics for their projects based on their department. The fun part about this app is that it allows you to enter your favorite topics to be able to streamline project topic suggestions that will interest you
 
 ## SNAPSHOTS
 
